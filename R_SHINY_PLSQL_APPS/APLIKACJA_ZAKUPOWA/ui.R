@@ -130,7 +130,11 @@ shinyUI
                                      actionButton(inputId="in_show_exp_view_dates",label="POKAŻ LISTĘ"),
                                      br(),
                                      br(),
-                                     tableOutput("out_exp_param")
+                                     actionButton(inputId="in_show_exp_sum",label="POKAŻ SUMĘ WYDATKÓW"),
+                                     br(),
+                                     br(),
+                                     tableOutput("out_exp_param"),
+                                     tableOutput("out_show_exp_sum")
                                      
                             )
                 )

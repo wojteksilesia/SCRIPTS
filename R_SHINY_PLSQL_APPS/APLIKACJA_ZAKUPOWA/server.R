@@ -550,6 +550,17 @@ shinyServer(
       
     })
     
+    observeEvent(input$in_show_exp_sum,{
+      
+      q<-paste0("SELECT SUM(CENA)|| ' zł' SUMA
+                FROM V_WATA_ALL_DATA
+                 WHERE TRUNC(DATA) BETWEEN TRUNC(TO_DATE('",as.character(input$in_start_date),"','YYYY-MM-DD'))
+                 AND TRUNC(TO_DATE('",as.character(input$in_end_date),"','YYYY-MM-DD'))")
+      
+      output$out_show_exp_sum <- renderTable(dbGetQuery(gv_con,q),rownames=F)
+      
+    })
+    
     
     
   }
