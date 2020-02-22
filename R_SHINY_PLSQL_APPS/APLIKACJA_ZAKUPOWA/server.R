@@ -351,7 +351,7 @@ shinyServer(
         actionButton(inputId="in_commit_list",label="AKCEPTUJ LISTĘ ZAKUPÓW")
         
       })     
-     
+      
       output$out_clear_interface <- renderUI({
         actionButton(inputId="in_clear_interface",label="ZERUJ LISTĘ ZAKUPÓW")
         
@@ -364,12 +364,12 @@ shinyServer(
     
     ## Wczytanie parametrów
     
-     o_shopping_store <- reactive({ input$in_view_process_shops  })
-     o_shopping_date <- reactive({ as.character(input$in_shopping_date) })
-     
-     o_shopping_product <- reactive({input$in_view_process_products})
-     o_shopping_price<-reactive({input$in_price})
-     o_shopping_weight<-reactive({input$in_weight})
+    o_shopping_store <- reactive({ input$in_view_process_shops  })
+    o_shopping_date <- reactive({ as.character(input$in_shopping_date) })
+    
+    o_shopping_product <- reactive({input$in_view_process_products})
+    o_shopping_price<-reactive({input$in_price})
+    o_shopping_weight<-reactive({input$in_weight})
     
     ### Tabela z listą zakupów
     output$out_df_shopping <- renderTable(NULL)
@@ -402,7 +402,7 @@ shinyServer(
                          input$in_price,
                          input$in_weight)
       
-
+      
       v_v$v_df <-convert_to_view(v$df,v_process_shops,v_process_products)
       
       #output$out_df_shopping<-renderTable(v$df)
@@ -410,64 +410,64 @@ shinyServer(
       output$out_df_shopping<-renderTable(v_v$v_df)
       
     })
+    
+    observeEvent(input$in_commit_list,{
       
-      observeEvent(input$in_commit_list,{
-        
-        x <- xmlTree("SHOPPING")
-        x$addTag("ID_SHOP",input$in_view_process_shops,close=T)
-        x$addTag("SHOPPING_DATE",as.character(input$in_shopping_date),close=T)
-        x$addTag("PRODUCTS",close=F)
-        for(i in 1:nrow(v$df)){
-          x$addTag("PRODUCT",close=F)
-          x$addTag("ID_PRODUCT",v$df$ID_PRODUCT[i],close=T)
-          x$addTag("PRICE",v$df$PRICE[i],close=T)
-          x$addTag("WEIGHT",v$df$WEIGHT[i],close=T)
-          x$closeTag()
-        }
+      x <- xmlTree("SHOPPING")
+      x$addTag("ID_SHOP",input$in_view_process_shops,close=T)
+      x$addTag("SHOPPING_DATE",as.character(input$in_shopping_date),close=T)
+      x$addTag("PRODUCTS",close=F)
+      for(i in 1:nrow(v$df)){
+        x$addTag("PRODUCT",close=F)
+        x$addTag("ID_PRODUCT",v$df$ID_PRODUCT[i],close=T)
+        x$addTag("PRICE",v$df$PRICE[i],close=T)
+        x$addTag("WEIGHT",v$df$WEIGHT[i],close=T)
         x$closeTag()
-        
-        
-        final_xml <- saveXML(x$value())
-        
-        o_add_shopping_list_error<-add_shopping_list_exec(final_xml)
-        output$out_add_shopping_list_error<-renderText(o_add_shopping_list_error)
-        
-        
-      }) 
-        
-        
-        ## Wyzeruj interfejs 
-      observeEvent(input$in_clear_interface,{
-        
-        enable("in_shopping_date")
-        enable("in_view_process_shops")
-        
-        ## Wyzeruj tabelę z listą zakupów
-        for(i in 1:nrow(v$df)){
-          v$df[i,]<-NA
-        }
-        v$df<-v$df[complete.cases(v$df),]
-        
-        ## Wyzeruj widok
-        for(i in 1:nrow(v_v$v_df)){
-          v_v$v_df[i,]<-NA
-        }
-        v_v$v_df<-v_v$v_df[complete.cases(v_v$v_df),]
-        
-        output$out_df_shopping <- renderTable(NULL)
-        
-        ## Pola
-        output$out_view_process_products<-renderUI({NULL})
-        output$out_hidden_price<-renderUI({NULL})
-        output$out_hidden_weight<-renderUI({NULL })
-        output$out_commit_single <- renderUI({NULL})
-        output$out_commit_list <- renderUI({NULL})
-        output$out_add_shopping_list_error<-renderText({NULL})
-        output$out_clear_interface<-renderUI({NULL})
-         
-        
-      })
+      }
+      x$closeTag()
       
+      
+      final_xml <- saveXML(x$value())
+      
+      o_add_shopping_list_error<-add_shopping_list_exec(final_xml)
+      output$out_add_shopping_list_error<-renderText(o_add_shopping_list_error)
+      
+      
+    }) 
+    
+    
+    ## Wyzeruj interfejs 
+    observeEvent(input$in_clear_interface,{
+      
+      enable("in_shopping_date")
+      enable("in_view_process_shops")
+      
+      ## Wyzeruj tabelę z listą zakupów
+      for(i in 1:nrow(v$df)){
+        v$df[i,]<-NA
+      }
+      v$df<-v$df[complete.cases(v$df),]
+      
+      ## Wyzeruj widok
+      for(i in 1:nrow(v_v$v_df)){
+        v_v$v_df[i,]<-NA
+      }
+      v_v$v_df<-v_v$v_df[complete.cases(v_v$v_df),]
+      
+      output$out_df_shopping <- renderTable(NULL)
+      
+      ## Pola
+      output$out_view_process_products<-renderUI({NULL})
+      output$out_hidden_price<-renderUI({NULL})
+      output$out_hidden_weight<-renderUI({NULL })
+      output$out_commit_single <- renderUI({NULL})
+      output$out_commit_list <- renderUI({NULL})
+      output$out_add_shopping_list_error<-renderText({NULL})
+      output$out_clear_interface<-renderUI({NULL})
+      
+      
+    })
+    
     
     ############################################################
     ############################################################
@@ -511,13 +511,13 @@ shinyServer(
     observeEvent(input$in_show_expenditures,{
       
       o_view_all_data<-dbGetQuery(gv_con,"SELECT DATA,
-                                                 PRODUKT,
-                                                 KATEGORIA,
-                                                 CENA|| ' zł' CENA,
-                                                 CASE WHEN WAGA IS NULL THEN WAGA ELSE WAGA || ' kg' END WAGA,
-                                                 SKLEP,
-                                                 ADRES,MIASTO 
-                                          FROM V_WATA_ALL_DATA ORDER BY DATA DESC")
+                                  PRODUKT,
+                                  KATEGORIA,
+                                  CENA|| ' zł' CENA,
+                                  CASE WHEN WAGA IS NULL THEN WAGA ELSE WAGA || ' kg' END WAGA,
+                                  SKLEP,
+                                  ADRES,MIASTO 
+                                  FROM V_WATA_ALL_DATA ORDER BY DATA DESC")
       
       o_view_all_data$DATA<-as.Date(format(as.Date(o_view_all_data$DATA),"%d-%b-%Y"),format="%d-%b-%Y")
       o_view_all_data$PRODUKT<-as.factor(o_view_all_data$PRODUKT)
@@ -529,58 +529,30 @@ shinyServer(
       output$out_expenditures <- renderDataTable({o_view_all_data},
                                                  filter="top",rownames=F,
                                                  options=list(pageLength=10,info=F,
-                                                 lengthMenu=list(c(10,50,100,-1),c("10","50","100","All")))
-                                                )
+                                                              lengthMenu=list(c(10,50,100,-1),c("10","50","100","All")))
+      )
     })
     
     
     ##################  PANEL WYDATKI - PRODUKT #############
     
-    #observeEvent(input$in_exp_last_7_days,{
-     # output$out_exp_param<-renderTable(dbGetQuery(gv_con,"SELECT PRODUKT, SUM(CENA)|| ' zł'  WYDANO
-      #                                                   FROM V_WATA_ALL_DATA
-       #                                                  WHERE TRUNC(DATA) BETWEEN TRUNC(SYSDATE)-7 AND TRUNC(SYSDATE)
-        #                                                 GROUP BY PRODUKT
-         #                                                ORDER BY SUM(CENA) DESC"))
-    #})
-    
-    #observeEvent(input$in_exp_current_week,{
-      #output$out_exp_param<-renderTable(dbGetQuery(gv_con,"SELECT PRODUKT, SUM(CENA)|| ' zł'  WYDANO
-        #                                                 FROM V_WATA_ALL_DATA
-         #                                          WHERE TRUNC(DATA,'IW') = TRUNC(SYSDATE,'IW')
-          #                                         GROUP BY PRODUKT
-           #                                        ORDER BY SUM(CENA) DESC"))
-      
-    #})
-    
-    observeEvent(input$in_show_exp_view,{
-      
-      q<- paste0("SELECT PRODUKT, SUM(CENA)|| ' zł'  WYDANO
-                  FROM V_WATA_ALL_DATA
-                 WHERE TRUNC(DATA) BETWEEN TRUNC(SYSDATE)-",input$in_exp_days,"AND TRUNC(SYSDATE)
-                 GROUP BY PRODUKT
-                 ORDER BY SUM(CENA) DESC")
-        
-      output$out_exp_param<-renderTable(dbGetQuery(gv_con,q),rownames = F)
-    })
-    
     observeEvent(input$in_show_exp_view_dates,{
       
       q<- paste0("SELECT PRODUKT, SUM(CENA)|| ' zł'  WYDANO
-                  FROM V_WATA_ALL_DATA
+                 FROM V_WATA_ALL_DATA
                  WHERE TRUNC(DATA) BETWEEN TRUNC(TO_DATE('",as.character(input$in_start_date),"','YYYY-MM-DD'))
-                                      AND TRUNC(TO_DATE('",as.character(input$in_end_date),"','YYYY-MM-DD'))
+                 AND TRUNC(TO_DATE('",as.character(input$in_end_date),"','YYYY-MM-DD'))
                  GROUP BY PRODUKT
                  ORDER BY SUM(CENA) DESC")
       
       output$out_exp_param<-renderTable(dbGetQuery(gv_con,q),rownames = F)
       
-
+      
     })
     
     
     
   }
   
-      )
+    )
 
