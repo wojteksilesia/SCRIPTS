@@ -1,0 +1,89 @@
+MODEL TABEL:
+
+- MIASTO
+- TECHNOLOGIA
+- DATA
+- PRZYPISANIE MIASTA DO TECHNOLOGII
+- PRZYPISANIE MIASTA & TECHNOLOGII DO DATY 
+- LOGI
+
+
+PUSZCZASZ SCRAP, NA WSZYSTKIE MIASTA I TECHNOLOGIE IDZIE, I PO DATACH DODAJE SIĘ ID_RUN i wali błędem jak już taki run poszedł 
+
+WARSZAWA
+KATOWICE
+GLIWICE
+KRAKÓW
+ŁÓDŹ
+GDAŃSK
+POZNAŃ
+WROCŁAW 
+
+
+.NET C#
+Javascript
+JAVA
+SQL
+data analyst data scientist 
+Business intelligence 
+
+
+Mapuj nową technologię do wszystkich miast
+
+Mapuj nowe miasto do wszystkich technologii 
+
+widok kod technologii + kod miasta by uruchomic skrap 
+
+
+JS
+https://www.pracuj.pl/praca/javascript;kw/lodz;wp
+
+.NET 
+https://www.pracuj.pl/praca/.net%20c%23;kw/lodz;wp
+
+JAVA
+https://www.pracuj.pl/praca/java;kw/lodz;wp
+
+SQL
+https://www.pracuj.pl/praca/sql;kw/lodz;wp
+
+ds da
+https://www.pracuj.pl/praca/data%20analyst-x44-data%20scientist;kw/lodz;wp
+
+BI
+https://www.pracuj.pl/praca/business%20intelligence;kw/lodz;wp
+
+
+
+https://www.youtube.com/channel/UCTalI0S14Ek6DcvvvFIFPOg
+https://www.youtube.com/watch?v=ktWjjAlAKtE&list=PL6wLL_RojB5y8uL3uuIMnJ6JoTIFywQ-r
+
+
+
+
+
+
+
+
+scrap, mamy technologia+miasto i count
+
+z tego można XML-a zrobić ID przypisania + count 
+
+procedura się odpala
+
+trunc(sysdate) dodawany do tabeli z datami (zgarnięcie ID lub dodanie rerkordu jak nie ma, z wykorzystaniem returning 
+
+https://www.youtube.com/watch?v=kJK8adB2wuw
+okno modalne czy na pewno chcemy potwierdzić 
+
+
+<OFFERS>
+	<OFFER>
+		<ID_CITY_TECH></ID_CITY_TECH>
+		<COUNT></COUNT>
+	</OFFER>
+		<OFFER>
+		<ID_CITY_TECH></ID_CITY_TECH>
+		<COUNT></COUNT>
+	</OFFER>
+</OFFERS>
