@@ -3,6 +3,8 @@ library(RJDBC)
 library(rvest)
 library(XML)
 library(DT)
+library(stringr)
+library(ggplot2)
 
 shinyServer(
   function(input,output){
@@ -161,7 +163,7 @@ shinyServer(
     
     observeEvent(input$in_show_today_data,{
       
-      o_v_show_today <- dbGetQuery(gv_con,"SELECT MIASTO,TECHNOLOGIA,TO_CHAR(LICZBA,'FM99999990') LICZBA
+      o_v_show_today <- dbGetQuery(gv_con,"SELECT MIASTO,TECHNOLOGIA,LICZBA
                                    FROM V_SHOW_DAY_CITY_OFFER WHERE TRUNC(DATA)=TRUNC(SYSDATE)")
       
       o_v_show_today$MIASTO <- as.factor(o_v_show_today$MIASTO)
@@ -229,6 +231,76 @@ shinyServer(
     })
     
     
+    ############ PLOTS PANEL ################
+    
+    ## Cities VIEW PREPARATION ##
+    
+    o_cities_vector <- dbGetQuery(gv_con,"SELECT MIASTO FROM V_SHOW_CITIES")
+    o_cities_vector<-o_cities_vector$MIASTO
+    names(o_cities_vector)<-o_cities_vector
+    
+    for(i in 1:length(o_cities_vector)){
+      o_cities_vector[i] <- str_pad(o_cities_vector[i],
+                                           width=nchar(o_cities_vector[i])+2,side="both",pad="'")
+      o_cities_vector[i]<-str_pad(o_cities_vector[i],
+                                         width=nchar(o_cities_vector[i])+1,side="right",pad=",")
+    }
+    
+    output$out_cities_list <- renderUI({
+      selectInput(inputId="in_select_city",label="MIASTO",multiple=TRUE,choices=o_cities_vector)
+    })
+    
+    #output$test<-renderText(input$in_select_city)
+    
+    
+    ## TECHNOLOGY VIEW PREPARATION ##
+    
+    o_tech_vector <- dbGetQuery(gv_con,"SELECT NAME FROM V_SHOW_TECH")
+    o_tech_vector <- o_tech_vector$NAME
+    names(o_tech_vector)<-o_tech_vector
+    
+    for(i in 1:length(o_tech_vector)){
+      o_tech_vector[i]<-str_pad(o_tech_vector[i],width=nchar(o_tech_vector[i])+2,
+                                side="both",pad="'")
+      
+      o_tech_vector[i]<-str_pad(o_tech_vector[i],width=nchar(o_tech_vector[i])+1,side="right",pad=",")
+    }
+    
+    output$out_tech_list<-renderUI({
+      selectInput(inputId="in_select_tech",label="TECHNOLOGIA",multiple=TRUE,choices=o_tech_vector)
+    })
+    
+    
+    ######### RENDEROWANIE WYKRESU ########
+    
+    o_selected_cities <- reactive({
+      paste(input$in_select_city,collapse="")
+    })
+    
+    o_selected_techs <- reactive({
+      paste(input$in_select_tech,collapse="")
+    })
+    
+    observeEvent(input$in_commit_plot,{
+      
+      q<- paste0("SELECT MIASTO,TECHNOLOGIA,DATA,LICZBA 
+                  FROM V_SHOW_DAY_CITY_OFFER 
+                  WHERE MIASTO IN (",substr(o_selected_cities(),1,nchar(o_selected_cities())-1),")
+                  AND TECHNOLOGIA IN (",substr(o_selected_techs(),1,nchar(o_selected_techs())-1),")
+                  AND TRUNC(DATA) BETWEEN TRUNC(TO_DATE('",as.character(input$in_date_from),"','YYYY-MM-DD'))
+                 AND TRUNC(TO_DATE('",as.character(input$in_date_to),"','YYYY-MM-DD'))")
+      
+      df <- dbGetQuery(gv_con,q)
+      
+      #output$test_tabela<-renderTable(df)
+      #output$test<-renderText(q)
+      
+      df$DATA<-as.Date(df$DATA)
+      
+      o_plot <- ggplot(data=df,aes(x=DATA,y=LICZBA,color=TECHNOLOGIA))+geom_point(size=1.4)+facet_grid(.~MIASTO)
+      output$output_plot <- renderPlot(o_plot)
+      
+    })
         
     
   }

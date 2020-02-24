@@ -1,6 +1,6 @@
 CREATE OR REPLACE PACKAGE PCG_PRACUJ_PARAMS AS
 
-PROCEDURE CREATE_LOG(invFunction_name IN VARCHAR2, indStart_time IN DATE, indEnd_time IN DATE, invInput_parameters IN VARCHAR2, invError IN VARCHAR2);
+PROCEDURE CREATE_LOG(invFunction_name IN VARCHAR2, indStart_time IN DATE, indEnd_time IN DATE, invInput_parameters IN VARCHAR2 DEFAULT NULL, invError IN VARCHAR2,inxXML IN XMLTYPE DEFAULT NULL);
 PROCEDURE PRACUJ_ADD_CITY(invCity IN VARCHAR2, invCode IN VARCHAR2);
 PROCEDURE PRACUJ_ADD_TECH (invTech IN VARCHAR2, invCode IN VARCHAR2);
 PROCEDURE PRACUJ_REGISTER_DAILY_DATA (inxXML XMLTYPE);
@@ -14,16 +14,16 @@ END PCG_PRACUJ_PARAMS;
 
 CREATE OR REPLACE PACKAGE BODY PCG_PRACUJ_PARAMS AS
 
-PROCEDURE CREATE_LOG (invFunction_name IN VARCHAR2, indStart_time IN DATE, indEnd_time IN DATE, invInput_parameters IN VARCHAR2, invError IN VARCHAR2) IS
+PROCEDURE CREATE_LOG (invFunction_name IN VARCHAR2, indStart_time IN DATE, indEnd_time IN DATE, invInput_parameters IN VARCHAR2 DEFAULT NULL, invError IN VARCHAR2,inxXML IN XMLTYPE DEFAULT NULL) IS
 
 		PRAGMA AUTONOMOUS_TRANSACTION;
 	
 	BEGIN
 	
 		INSERT INTO PRACUJ_LOGS
-		(FUNCTION_NAME, START_TIME, END_TIME, INPUT_PARAMETERS, ERROR_DESC)
+		(FUNCTION_NAME, START_TIME, END_TIME, INPUT_PARAMETERS, ERROR_DESC,XML_IN)
 		VALUES
-		(invFunction_name, indStart_time, indEnd_time, invInput_parameters, invError)
+		(invFunction_name, indStart_time, indEnd_time, invInput_parameters, invError,inxXML)
 		;
 		
 		COMMIT;
@@ -158,7 +158,7 @@ PROCEDURE PRACUJ_REGISTER_DAILY_DATA (inxXML XMLTYPE) IS
 
 		ldStart_time DATE;
 		ldEnd_time DATE;
-		lvParam VARCHAR2(4000);
+		--lvParam VARCHAR2(4000);
 		lvFunction_name VARCHAR2(4000) := 'PRACUJ_REGISTER_DAILY_DATA';
 		lvError VARCHAR2(4000);
 		lnId_scrap_date NUMBER;
@@ -176,7 +176,7 @@ PROCEDURE PRACUJ_REGISTER_DAILY_DATA (inxXML XMLTYPE) IS
 		
 	BEGIN
 		
-		lvParam := inxXML.GETSTRINGVAL();
+		--lvParam := inxXML.GETSTRINGVAL();
 		ldStart_time := SYSDATE;
 		
 		BEGIN
@@ -232,8 +232,9 @@ PROCEDURE PRACUJ_REGISTER_DAILY_DATA (inxXML XMLTYPE) IS
 		CREATE_LOG(invFunction_name => lvFunction_name,
 				   indStart_time => ldStart_time,
 				   indEnd_time => ldEnd_time,
-				   invInput_parameters => lvParam,
-				   invError => NULL			   
+				   --invInput_parameters => lvParam,
+				   invError => NULL,
+				   inxXML => inxXML
 				   );
 		
 	EXCEPTION 
@@ -246,8 +247,9 @@ PROCEDURE PRACUJ_REGISTER_DAILY_DATA (inxXML XMLTYPE) IS
 			CREATE_LOG(invFunction_name => lvFunction_name,
 				   indStart_time => ldStart_time,
 				   indEnd_time => ldEnd_time,
-				   invInput_parameters => lvParam,
-				   invError => lvError		   
+				   --invInput_parameters => lvParam,
+				   invError => lvError,
+				   inxXML => inxXML
 				   );
 			RAISE;	
 	

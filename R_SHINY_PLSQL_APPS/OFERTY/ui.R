@@ -6,7 +6,13 @@ shinyUI
   fluidPage(
     titlePanel("IT JOB OFFERS"),
     sidebarLayout(
-      sidebarPanel(),
+      sidebarPanel( 
+        br(),
+        uiOutput("out_cities_list"),
+        uiOutput("out_tech_list"),
+        dateInput(inputId="in_date_from",label="DATA POCZĄTKOWA"),
+        dateInput(inputId="in_date_to",label="DATA KOŃCOWA"),
+        actionButton(inputId="in_commit_plot",label="ZATWIERDŹ")),
       mainPanel(
         tabsetPanel(type="tab",
                     tabPanel("MIASTA",
@@ -58,12 +64,20 @@ shinyUI
                              br(),
                              dataTableOutput("out_v_show_today"),
                              textOutput("out_register_data")
-                             
-                             
-                    
-                             
-                             
+     
+                    ),
+                    tabPanel("WYKRESY",
+                             # br(),
+                             # uiOutput("out_cities_list"),
+                             # uiOutput("out_tech_list"),
+                             # dateInput(inputId="in_date_from",label="DATA POCZĄTKOWA"),
+                             # dateInput(inputId="in_date_to",label="DATA KOŃCOWA"),
+                             # actionButton(inputId="in_commit_plot",label="ZATWIERDŹ"),
+                             #tableOutput("test_tabela"),
+                             #textOutput("test"),
+                             plotOutput("output_plot",width = "100%", height = "600px")
                     )
+                    
                     
                     
                     
