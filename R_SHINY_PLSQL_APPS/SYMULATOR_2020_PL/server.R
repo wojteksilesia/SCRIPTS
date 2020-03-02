@@ -193,7 +193,7 @@ shinyServer(
       result_df[result_df$TEAM=="PGE FKS Stal Mielec","TEAM"] <- "Stal Mielec"
       result_df[result_df$TEAM=="Podbeskidzie Bielsko-Biała","TEAM"] <- "Podbeskidzie B.-B."
       result_df[result_df$TEAM=="Radomiak Radom","TEAM"] <- "Radomiak"
-      result_df[result_df$TEAM=="GKS 1962 Jastrzębie","TEAM"] <- "GKS Jastrzębie Zdrój"
+      result_df[result_df$TEAM=="GKS Jastrzębie","TEAM"] <- "GKS Jastrzębie Zdrój"
       result_df[result_df$TEAM=="Odra Opole","TEAM"] <- "OKS Odra Opole"
       result_df[result_df$TEAM=="Chojniczanka","TEAM"] <- "MKS Chojniczanka Chojnice"
       result_df[result_df$TEAM=="Bruk-Bet Nieciecza","TEAM"] <- "Bruk-Bet Termalica"
