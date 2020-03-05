@@ -81,7 +81,7 @@ shinyServer(
     take_pairings_eks <- function(only_future){
       
       ## Page URL
-      pairings_url <- "https://wyniki.interia.pl/rozgrywki-L-polska-ekstraklasa,cid,3,sort,I"
+      pairings_url <- "https://wyniki.interia.pl/rozgrywki-R-polska-ekstraklasa,cid,3,sort,I"
       
       ## Page source html
       html_schema <- read_html(pairings_url)
@@ -986,27 +986,27 @@ shinyServer(
       o_rows <- nrow(o_wyniki$TABLE)/2
       
       if(input$in_method==TRUE){
-          o_probs <- o_wyniki$PROBS
-          o_probs$P_1<-round(o_probs$P_1,3)
-          o_probs$P_0<-round(o_probs$P_0,3)
-          o_probs$P_2<-round(o_probs$P_2,3)
-          colnames(o_probs)<-c("HOME","AWAY","1","0","2")
-          output$out_probs<-renderDataTable({o_probs},filter="top",rownames=FALSE,
-                                            options=list(pageLength = o_rows, 
-                                                         info = FALSE,
-                                                         lengthMenu = list(c(o_rows,o_rows*2,o_rows*3,o_rows*4, -1), 
-                                                                           c(as.character(o_rows),as.character(o_rows*2),
-                                                                             as.character(o_rows*3),as.character(o_rows*4), "All")) 
-                                                         )
-                                            
-                                            )
+        o_probs <- o_wyniki$PROBS
+        o_probs$P_1<-round(o_probs$P_1,3)
+        o_probs$P_0<-round(o_probs$P_0,3)
+        o_probs$P_2<-round(o_probs$P_2,3)
+        colnames(o_probs)<-c("HOME","AWAY","1","0","2")
+        output$out_probs<-renderDataTable({o_probs},filter="top",rownames=FALSE,
+                                          options=list(pageLength = o_rows, 
+                                                       info = FALSE,
+                                                       lengthMenu = list(c(o_rows,o_rows*2,o_rows*3,o_rows*4, -1), 
+                                                                         c(as.character(o_rows),as.character(o_rows*2),
+                                                                           as.character(o_rows*3),as.character(o_rows*4), "All")) 
+                                          )
+                                          
+        )
       }else{
         output$out_probs<-renderDataTable(NULL)
       }
-            
+      
     })
-      
-      
+    
+    
     
     observeEvent(input$in_button_2,{
       shinyalert("Komunikat:", "Okna wyników zostały wyczyszczone", type = "success")
