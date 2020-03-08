@@ -1,0 +1,15 @@
+METODY:
+- SCRAP TABELI 
+- SCRAP TERMINARZA (argument True/False, czy zbieramy only future games czy nie)
+- SYMULACJA(N, ile grupa mistrzowska, ile mistrz, ile puchary, ile spadek, czy faza zasadnicza)
+
+Jak będzie gotowy rozkład jednostajny dla ekstraklasy, można spróbować 
+-rozszerzyć metodę SCRAP TABELI o inne ligi
+	
+	- dodać baraże do symulacji, finałowy df konstruować w zależności od poziomu rozgrywkowego 
+	- dopisać UT dla terminarza I, II i III ligi 
+	
+-napisać algorytm hierarchicznego klastrowania 
+
+
+
