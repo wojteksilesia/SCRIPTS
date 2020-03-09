@@ -98,11 +98,9 @@ def take_pairings(only_future,league):
         return output_df
 
 ##################################################################
-##################################################################
-
 ################# SIMULATION ###################################
 
-def simulation(N,chmp,cups,degraded,first_half,final_stage,division):
+def simulation(N,chmp,cups,degraded,first_half,final_stage,division,play_offs):
     #N=100
     #chmp=1
     #cups=3
@@ -110,6 +108,7 @@ def simulation(N,chmp,cups,degraded,first_half,final_stage,division):
     #first_half=8
     #final_stage=True ## True-po podziale punktów
     #division 0-Ekstraklasa; 1-I liga; 2-II liga; 3-III liga gr.3
+    #play_offs=6
 
     league_table=take_table(league=division)
     upcoming_games=take_pairings(only_future=True,league=division)
@@ -122,6 +121,7 @@ def simulation(N,chmp,cups,degraded,first_half,final_stage,division):
     v_cups=pandas.Series(numpy.zeros(len(league_table.index)),index=league_table["DRUŻYNA"])
     v_degraded=pandas.Series(numpy.zeros(len(league_table.index)),index=league_table["DRUŻYNA"])
     v_first_half=pandas.Series(numpy.zeros(len(league_table.index)),index=league_table["DRUŻYNA"])
+    v_play_offs=pandas.Series(numpy.zeros(len(league_table.index)),index=league_table["DRUŻYNA"])
 
     for scenario in range(1,N+1):
         league_table_work=league_table.copy()
@@ -163,17 +163,26 @@ def simulation(N,chmp,cups,degraded,first_half,final_stage,division):
             ## Górna ósemka
             if league_table_work["MIEJSCE"].iloc[r]<=first_half:
                 v_first_half[league_table_work["DRUŻYNA"].iloc[r]]=v_first_half[league_table_work["DRUŻYNA"].iloc[r]]+1
+            ## Play-offy
+            if league_table_work["MIEJSCE"].iloc[r]<=play_offs:
+                v_play_offs[league_table_work["DRUŻYNA"].iloc[r]]=v_play_offs[league_table_work["DRUŻYNA"].iloc[r]]+1
         
     v_champ=round(v_champ/N,2)
     v_cups=round(v_cups/N,2)
     v_degraded=round(v_degraded/N,2)
     v_first_half=round(v_first_half/N,2)
+    v_play_offs=round(v_play_offs/N,2)
     
-    if final_stage==True:
-        out_df=pandas.DataFrame({"MISTRZOSTWO":v_champ,"PUCHARY":v_cups,"SPADEK":v_degraded})
-    else:
-        out_df=pandas.DataFrame({"LIDER":v_champ,"GRUPA MISTRZOWSKA":v_first_half,"STREFA SPADKOWA":v_degraded})
-    
+    if division==0:
+        if final_stage==True:
+            out_df=pandas.DataFrame({"MISTRZOSTWO":v_champ,"PUCHARY":v_cups,"UTRZYMANIE":1-v_degraded,"SPADEK":v_degraded})
+        else:
+            out_df=pandas.DataFrame({"LIDER":v_champ,"GRUPA MISTRZOWSKA":v_first_half,"STREFA SPADKOWA":v_degraded})
+    elif division==1 or division==2:
+        out_df=pandas.DataFrame({"AWANS":v_champ,"BARAŻE":v_play_offs,"UTRZYMANIE":1-v_degraded,"SPADEK":v_degraded})
+    elif division==3:
+        out_df=pandas.DataFrame({"AWANS":v_champ,"UTRZYMANIE":1-v_degraded,"SPADEK":v_degraded})
+         
     return out_df
 
 ##################################################################
