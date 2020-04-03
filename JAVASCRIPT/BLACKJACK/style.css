@@ -1,0 +1,65 @@
+body{
+	background: url(https://pl.sterlingcdn.com/wp-content/uploads/sites/3/2018/07/blackjack-classic-background.jpg);
+	background-size:cover;
+}
+
+
+#start_game{
+	margin-left:100px;
+	margin-top:20px;
+	width:200px;
+	height:40px;
+	text-align:center;
+	border-radius:20px;
+	background-color:#41fc03;
+	border-color:#41fc03;
+	font-weight:bold;
+	font-family:Book Antiqua;
+}
+
+.main_section{
+	color:white;
+	margin-left:300px;
+	margin-top:70px;
+}
+
+
+.game_header{
+	text-align:center;
+	width:120px;
+	font-size:150%;
+}
+
+.game_info{
+	text-align:center;
+	font-size:120%;
+}
+
+#id_player_points{
+	padding-left:50px;
+}
+
+#player_points_header{
+	padding-left:50px;
+}
+
+
+#all_cards{
+	margin-left:200px;
+}
+
+img{
+	height:130%;
+	width:130%;
+}
+
+.table_cards{
+	padding-right:100px;
+	padding-bottom:100px;
+}
+
+
+#decision_panel{
+	margin-left:200px;
+	display:none;
+}
