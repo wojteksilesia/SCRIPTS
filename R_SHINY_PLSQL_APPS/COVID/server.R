@@ -56,7 +56,7 @@ shinyServer(
       for(i in 2:nrow(country_df)){
         cases_dynamic[i]<-country_df$cases[i]/country_df$cases[i-1]-1
       }
-      country_df$cases_dynamic<-cases_dynamic*100
+      country_df$cases_dynamic<-cases_dynamic
       
       ## Day 0
       for(i in 1:nrow(country_df)){
@@ -106,7 +106,20 @@ shinyServer(
         }
       }
       
-      pl <- p + geom_line()
+      pl <- p + geom_line(size=1.2)+ggtitle(paste("COVID-19 - ",y_param))+
+        theme(plot.title = element_text(hjust=0.5,size=30,colour="blue",margin=margin(b=14)),
+              axis.title.y = element_text(size=16,margin = margin(r=25)),
+              axis.title.x=element_text(size=16,margin=margin(t=14)),
+              legend.title=element_text(size=18,,hjust=0.5),
+              legend.text = element_text(size=15),
+              axis.text.x = element_text(size=13),
+              axis.text.y = element_text(size=13))+
+        ylab(y_param) + xlab(ifelse(x_param=="DATA","DATA","DZIEŃ"))+labs(col="KRAJ")
+      
+      if(x_param=="DZIEŃ 0"){
+        pl<-pl+scale_x_continuous(breaks=seq(0,max(in_df$day_number)+5,by=5))
+      }
+      
       return(pl)
     }
     
