@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<title>BLACK JACK</title>
+			<link rel="stylesheet" href="style.css">
+		</head>
+		<body>
+			<button id="start_game" type="button">URUCHOM NOWĄ GRĘ</button>
+			<div class="main_section">
+				<table>
+					<thead>
+						<th class="game_header">BANKROLL</th>
+						<th class="game_header" id="player_points_header">GRACZ</th>
+						<th class="game_header" id="dealer_points_header">DEALER</th>
+					</thead>
+					<tr>
+						<td class="game_info" id="id_bankroll"></td>
+						<td class="game_info" id="id_player_points"></td>
+						<td class="game_info" id="id_dealer_points"></td>
+					</tr>
+				</table>
+				<br></br>
+				<table id="all_cards">
+					<tr>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+						<td class="table_cards"><img class="dealer_card" src=""></td>
+					</tr>
+					<tr>
+						<td class="table_cards"><img class="user_card" src=""></td>
+						<td class="table_cards"><img class="user_card" src=""></td>
+						<td class="table_cards"><img class="user_card" src=""></td>
+						<td class="table_cards"><img class="user_card" src=""></td>
+						<td class="table_cards"><img class="user_card" src=""></td>
+						<td class="table_cards"><img class="user_card" src=""></td>
+					</tr>
+				</table>
+				<table id="decision_panel">
+					<tr>
+						<td><input id="id_bet" type="text"></td>
+						<td><button id="id_bet_button" type="button">POSTAW ZAKŁAD</button></td>
+						<td><button id="id_take_card" type="button" disabled>DOBIERZ KARTĘ</button></td>
+						<td><button id="id_wait" type="button" disabled>CZEKAJ</button></td>
+						<td><button id="id_new_hand" type="button" disabled>NOWE ROZDANIE</button></td>
+					</tr>
+				</table>
+			</div>
+			<script src="script.js"></script>
+		</body>
+	</html>
