@@ -1,0 +1,42 @@
+.header_section{
+	 text-align:center;
+	 font-family:"ARIAL";
+	 font-size:150%;
+}
+
+#id_play_again{
+	margin-left:70px;
+	border-radius:20px;
+	width:150px;
+	height:50px;
+	border-color:orange;
+	background-color:orange;
+	margin-bottom:0px;
+}
+
+#col-pl-1{
+	color:blue;
+}
+
+#col-pl-2{
+	color:red;
+}
+
+td{
+	border:5px;
+	border-color:black;
+	border-style:solid;
+	border-radius:50%;
+	display:inline-block;
+	width:50px;
+	height:50px;
+	background-color:grey;
+
+}
+
+table{
+		margin:0 auto; /* tabela zostanie wyœrodkowana na stronie */ 
+	}
+
+
+/*FELIX TITLING*/
