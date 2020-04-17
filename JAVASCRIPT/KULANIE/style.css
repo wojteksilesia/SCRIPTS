@@ -1,0 +1,52 @@
+body{
+	background:#d6b75a;
+}
+
+h1{
+	text-align:center;
+	font-family:"Courier New";
+	font-size:55px;
+}
+
+#id_start{
+	border-radius:20px;
+	background-color:orange;
+	border-color:orange;
+	margin-left:50px;
+	height:50px;
+	width:200px;
+	font-size:15px;
+}
+
+/*#id_player_name{
+	font-size:30px;
+	margin-left:500px;
+	margin-top:40px;
+} */
+
+table{
+	margin-left:500px;
+	margin-top:40px;
+	font-size:30px;
+}
+
+/*td{
+	width:500px;
+}*/
+
+td{
+	padding-right:500px;
+	padding-bottom:30px;
+}
+
+#id_player_dice{
+	width:100px;
+	height:100px;
+}
+
+#id_bot_dice{
+	width:100px;
+	height:100px;
+}
+
+/* http://www.clker.com/clipart-dice-4.html */ 
