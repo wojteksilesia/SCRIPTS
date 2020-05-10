@@ -1,0 +1,139 @@
+body{
+	  background:url(https://d-art.ppstatic.pl/kadry/k/r/1/ae/7c/57c988512c0a6_o_large.jpg);
+	  background-size:cover;
+} 
+
+#id_form{
+	background-color:rgba(227, 221, 204,0.7);  /*#e3ddcc; */
+	width:500px;
+	padding-left:15px;
+	display:inline-block;
+}
+
+#id_result_section{
+	display:inline-block;
+	margin-top:0px;
+	padding-top:0px;
+	vertical-align:top;
+	margin-left:60px;
+	
+}
+
+
+#id_scenarios{
+	margin-left:10px;
+	width:100px;
+	vertical-align:middle;
+	margin-top:15px;
+}
+
+#id_league{
+	width:250px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:10px;
+}
+
+#id_contaier_label_scenarios{
+	width:200px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-top:15px;
+}
+
+#id_container_label_league{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+
+#id_container_label_stage{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_stage{
+	width:250px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:10px;
+}
+
+#id_container_label_promoted{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_promoted{
+	width:100px;
+	margin-left:10px;
+	display:inline-block;
+}
+
+#id_container_label_cups{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_cups{
+	width:100px;
+	margin-left:10px;
+	display:inline-block;
+}
+
+#id_container_label_playoff{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_playoff{
+	width:100px;
+	margin-left:10px;
+	display:inline-block;
+}
+
+#id_container_label_degraded{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_degraded{
+	width:100px;
+	margin-left:10px;
+	display:inline-block;
+}
+
+#id_container_label_method{
+	display:inline-block;
+	vertical-align:middle;
+	width:200px;
+}
+
+#id_method{
+	width:250px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:10px;
+}
+
+#id_submit{
+	margin-top:15px;
+	width:200px;
+	height:40px;
+	border-radius:20px;
+	background-color:orange;
+	border-color:orange;
+	margin-left:100px;
+	font-weight:bold;
+	margin-bottom:15px;
+}
+
+#id_submit:focus {
+    outline:0;
+}
