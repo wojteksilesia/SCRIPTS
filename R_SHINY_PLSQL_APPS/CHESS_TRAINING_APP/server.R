@@ -2,6 +2,7 @@ library(shiny)
 library(RJDBC)
 library(shinyalert)
 library(DT)
+library(shinyjs)
 
 shinyServer(
   function(input,output){
@@ -115,7 +116,7 @@ shinyServer(
     
     ### RAWDATA
     observeEvent(input$in_show_rawdata,{
-      output$out_rawdata<-renderDataTable({dbGetQuery(gv_con,"select * from OPENING_TRAINING")},
+      output$out_rawdata<-renderDataTable({dbGetQuery(gv_con,"select * from OPENING_TRAINING order by id")},
                                           filter="top",
                                           rownames=FALSE,
                                           options=list(pageLength=400,info=TRUE,
@@ -202,6 +203,74 @@ shinyServer(
     observeEvent(input$id_roll_the_dice,{
       source("C:/Users/Wojtek/Desktop/SZACHY_APP/RANDOM_OPENING.R")
       output$out_repertoire<-renderText(random_repertoire())
+    })
+    
+    #######################################
+    ### WAITING LIST ####################
+    
+    ### EXE FUNCTION
+    
+    add_remove_waiting_exe<-function(istatus,inewopening,ioldopening,icolor,ilink){
+      if(istatus==1){
+        q<-paste0("BEGIN PCG_OPENING_TRAINING.ADD_REMOVE_WAITING_LIST(1,","'",inewopening,"',","'",icolor,"'",",'",ilink,"'); END;")
+      }else if(istatus==-1){
+        q<-paste0("BEGIN PCG_OPENING_TRAINING.ADD_REMOVE_WAITING_LIST(-1,","'",ioldopening,"',NULL,NULL); END;")
+      }
+      err<-try(dbSendUpdate(gv_con,q),silent=TRUE)
+      if(length(err)==0){
+        return("VARIATION SUCCESSFULLY ADDED TO WAITING LIST")
+      }else{
+        return('ERROR - VARIATION NOT ADDED')
+      }
+    }
+    
+    
+    ## LIST OF VARIATIONS
+    output$out_view_waiting_list <- renderUI({
+      disabled(selectInput(inputId="in_waiting_list_view",label="VARIATION TO REMOVE",
+                  choices=unique(dbGetQuery(gv_con,"select opening from waiting_list")$OPENING)))
+    })
+    
+    
+    observeEvent(input$in_action,{
+      if(input$in_action==1){
+        disable("in_waiting_list_view")
+        enable("in_new_var_waiting_list")
+        enable("in_color_waiting_list")
+        enable("in_waiting_link")
+      }else if(input$in_action==-1){
+        enable("in_waiting_list_view")
+        disable("in_new_var_waiting_list")
+        disable("in_color_waiting_list")
+        disable("in_waiting_link")        
+      }
+    })
+    
+    o_status_wl<-reactive({input$in_action})
+    o_new_opening_wl<-reactive({input$in_new_var_waiting_list})
+    o_old_opening_wl<-reactive({input$in_waiting_list_view})
+    o_color_wl<-reactive({input$in_color_waiting_list})
+    o_link_wl<-reactive({input$in_waiting_link})
+    
+    observeEvent(input$in_waiting_button_submit,{
+      wl_err<-add_remove_waiting_exe(o_status_wl(),o_new_opening_wl(),o_old_opening_wl(),o_color_wl(),o_link_wl())
+      if(substr(wl_err,1,1)=="V"){
+        shinyalert("WAITING LIST SUCCESSFULLY UPDATED",type="success")
+        ## Update view 
+        output$out_view_waiting_list <- renderUI({
+          selectInput(inputId="in_waiting_list_view",label="VARIATION TO REMOVE",
+                               choices=unique(dbGetQuery(gv_con,"select opening from waiting_list")$OPENING))})
+      }else if(substr(wl_err,1,1)=="E"){
+        shinyalert("ERROR - WAITING LIST NOT UPDATED",type="error")
+      }
+    })
+    
+    
+    ### Display
+    observeEvent(input$in_show_waiting_button,{
+      df_w<-dbGetQuery(gv_con,"select * from waiting_list order by id")
+      df_w$ID<-as.integer(df_w$ID)
+      output$out_waiting_df<-renderTable(df_w)
     })
     
     

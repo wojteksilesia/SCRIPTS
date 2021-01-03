@@ -2,11 +2,13 @@ library(shiny)
 library(RJDBC)
 library(shinyalert)
 library(DT)
+library(shinythemes)
+library(shinyjs)
 
 
 shinyUI
 (
-  fluidPage(useShinyalert(),
+  fluidPage(useShinyalert(),useShinyjs(),#theme=shinytheme("flatly"),
             #tags$style("#out_solution_text {margin-left:90px;}"),
             tags$style("#in_random_position_button {margin-left:65px;}"),
             tags$style("#in_solution {width:250px; height:300px;resize:None;}"),
@@ -92,6 +94,22 @@ shinyUI
                                                   br(),
                                                   br(),
                                                   dataTableOutput("out_rawdata")
+                                                  ),
+                                         tabPanel("UPCOMING",
+                                                  br(),
+                                                  selectInput(inputId="in_action",label="ACTION",choices=c("ADD"=1,"DELETE"=-1),selected=1),
+                                                  uiOutput("out_view_waiting_list"),
+                                                  textInput(inputId="in_new_var_waiting_list",label="NEW VARIATION"),
+                                                  selectInput(inputId="in_color_waiting_list",label="COLOR",choices=c("WHITE","BLACK"),selected="WHITE"),
+                                                  textInput(inputId="in_waiting_link",label="LINK",value=""),
+                                                  actionButton(inputId="in_waiting_button_submit",label="SUBMIT"),
+                                                  br(),
+                                                  br(),
+                                                  br(),
+                                                  actionButton(inputId="in_show_waiting_button",label="SHOW WAITING VARIATIONS"),
+                                                  br(),
+                                                  br(),
+                                                  tableOutput("out_waiting_df")
                                                   )
                                          )
                              ),
